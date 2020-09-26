@@ -12,11 +12,12 @@ import net.onlinereservation.entity.Reservation;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-	@Query(value = "SELECT count(id) > 1 from Reservation where hotel.id = :idHotel and ("
-			+ " (startdate >= :startDate and startdate <= :endDate) "
-			+ "or (startDate BETWEEN :startDate and :endDate) or (enddate BETWEEN :startDate and :endDate) "
+	@Query(value = "select count(id) from reservation r where hotel_id = :idHotel and ("
+			+ " (start_date >= :startDate and start_date <= :endDate) "
+			+ "or (start_date BETWEEN :startDate and :endDate) or (end_date BETWEEN :startDate and :endDate) "
 			+ ")", nativeQuery = true)
-	boolean isScheduled(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
+	// TODO Validate number of rooms
+	int roomsOccupied(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
 			@Param("idHotel") Long idHotel);
 
 	Page<Reservation> findAllByStartDateBetween(Date startDate, Date endDate, Pageable pg);

@@ -1,7 +1,7 @@
-package net.onlinereservation.controller.v1.hotel;
+package net.onlinereservation.controller.v1;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -64,9 +64,8 @@ public class HotelController {
 	@ApiOperation("Returns the list of hotels")
 	public ResponseEntity<Response<List<HotelDTO>>> findAll() {
 		Response<List<HotelDTO>> response = new Response<List<HotelDTO>>();
-		List<Hotel> hotels = this.hotelService.findAll();
-		List<HotelDTO> hotelsDto = new ArrayList<>(hotels.size());
-		hotels.forEach(hotel -> hotelsDto.add(modelMapper.map(hotel, HotelDTO.class)));
+		List<HotelDTO> hotelsDto = this.hotelService.findAll().stream()
+				.map(hotel -> modelMapper.map(hotel, HotelDTO.class)).collect(Collectors.toList());
 		response.setData(hotelsDto);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}

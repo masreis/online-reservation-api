@@ -1,4 +1,4 @@
-package net.onlinereservation.service;
+package net.onlinereservation.exception;
 
 public class PeriodNotAvailableException extends Exception {
 

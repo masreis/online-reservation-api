@@ -1,4 +1,4 @@
-package net.onlinereservation.controller.v1.reservation;
+package net.onlinereservation.controller.v1;
 
 import java.util.Date;
 
@@ -28,9 +28,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.onlinereservation.dto.ReservationDTO;
 import net.onlinereservation.dto.Response;
+import net.onlinereservation.entity.Hotel;
 import net.onlinereservation.entity.Reservation;
+import net.onlinereservation.exception.HotelNotFoundException;
+import net.onlinereservation.exception.PeriodNotAvailableException;
 import net.onlinereservation.exception.ReservationNotFoundException;
-import net.onlinereservation.service.PeriodNotAvailableException;
+import net.onlinereservation.service.HotelService;
 import net.onlinereservation.service.ReservationService;
 
 @Api("This is the Reservation Controller")
@@ -42,12 +45,15 @@ public class ReservationController {
 	private int pageSize;
 
 	private ReservationService reservationService;
+	private HotelService hotelService;
 	private ModelMapper modelMapper;
 
 	@Autowired
-	public ReservationController(ReservationService reservationService) {
+	public ReservationController(ReservationService reservationService, HotelService hotelService,
+			ModelMapper modelMapper) {
 		this.reservationService = reservationService;
-//		this.modelMapper = modelMapper;
+		this.hotelService = hotelService;
+		this.modelMapper = modelMapper;
 	}
 
 	@ApiOperation("Verify if the reservation period is available")
@@ -55,28 +61,51 @@ public class ReservationController {
 	public ResponseEntity<Response<Boolean>> isAvailable(
 			@RequestParam(name = "startDate", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
 			@RequestParam(name = "endDate", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
-			@RequestParam(name = "idHotel", required = true) Long idHotel) {
+			@RequestParam(name = "idHotel", required = true) Long idHotel) throws HotelNotFoundException {
 
 		Response<Boolean> response = new Response<>();
 
-		if (this.reservationService.isAvailable(startDate, endDate, idHotel)) {
+		Hotel hotel = hotelService.findById(idHotel);
+
+		if (this.reservationService.isAvailable(startDate, endDate, hotel)) {
 			response.setData(true);
 			return ResponseEntity.ok(response);
 		} else {
+			response.setData(false);
 			return new ResponseEntity<Response<Boolean>>(response, HttpStatus.CONFLICT);
 		}
 
 	}
 
 	@ApiOperation("Retrieve all reservations")
-	@GetMapping()
+	@GetMapping
 	// TODO Add sorting options
-	public ResponseEntity<Response<Page<Reservation>>> findAll(@RequestParam(name = "startDate") Date startDate,
-			@RequestParam(name = "endDate") Date endDate, @RequestParam(name = "page", defaultValue = "0") int page) {
+	public ResponseEntity<Response<Page<ReservationDTO>>> findAll(
+			@RequestParam(name = "page", defaultValue = "0") int page) {
 
 		Pageable pg = PageRequest.of(page, pageSize);
-		Response<Page<Reservation>> response = new Response<Page<Reservation>>();
-		Page<Reservation> reservations = reservationService.findAllByDate(startDate, endDate, pg);
+		Response<Page<ReservationDTO>> response = new Response<Page<ReservationDTO>>();
+		Page<ReservationDTO> reservations = null;
+		reservations = reservationService.findAll(pg)
+				.map(reservation -> modelMapper.map(reservation, ReservationDTO.class));
+		response.setData(reservations);
+		return ResponseEntity.ok(response);
+
+	}
+
+	@ApiOperation("Retrieve all reservations by date")
+	@GetMapping("/findAllByDate")
+	// TODO Add sorting options
+	public ResponseEntity<Response<Page<ReservationDTO>>> findAllByDate(
+			@RequestParam(name = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+			@RequestParam(name = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+			@RequestParam(name = "page", defaultValue = "0") int page) {
+
+		Pageable pg = PageRequest.of(page, pageSize);
+		Response<Page<ReservationDTO>> response = new Response<Page<ReservationDTO>>();
+		Page<ReservationDTO> reservations = null;
+		reservations = reservationService.findAllByDate(startDate, endDate, pg)
+				.map(reservation -> modelMapper.map(reservation, ReservationDTO.class));
 		response.setData(reservations);
 		return ResponseEntity.ok(response);
 
@@ -89,7 +118,8 @@ public class ReservationController {
 
 		Response<ReservationDTO> response = new Response<ReservationDTO>();
 
-		if (!reservationService.isAvailable(dto.getStartDate(), dto.getEndDate(), dto.getHotel().getId())) {
+		if (!reservationService.isAvailable(dto.getStartDate(), dto.getEndDate(),
+				modelMapper.map(dto.getHotel(), Hotel.class))) {
 			throw new PeriodNotAvailableException("The selected period is not available");
 		}
 

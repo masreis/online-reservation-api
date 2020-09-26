@@ -1,6 +1,6 @@
 package net.onlinereservation.dto;
 
-import java.util.Currency;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
@@ -13,9 +13,11 @@ import org.springframework.hateoas.RepresentationModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class ReservationDTO extends RepresentationModel<ReservationDTO> {
 
@@ -40,6 +42,6 @@ public class ReservationDTO extends RepresentationModel<ReservationDTO> {
 	private HotelDTO hotel;
 
 	@NotNull
-	private Currency pricePerDay;
+	private BigDecimal pricePerDay;
 
 }

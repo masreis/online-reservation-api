@@ -1,13 +1,15 @@
 package net.onlinereservation.entity;
 
 import java.io.Serializable;
-import java.util.Currency;
+import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
@@ -48,9 +50,11 @@ public class Reservation implements Serializable {
 	private Date endDate;
 
 	@NotNull
+	@ManyToOne
 	private Hotel hotel;
 
 	@NotNull
-	private Currency pricePerDay;
+	@Column(precision = 19, scale = 2)
+	private BigDecimal pricePerDay;
 
 }
