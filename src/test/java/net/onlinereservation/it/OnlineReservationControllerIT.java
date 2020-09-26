@@ -3,7 +3,6 @@ package net.onlinereservation.it;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +28,7 @@ import org.springframework.http.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import net.onlinereservation.dto.HotelDTO;
 import net.onlinereservation.dto.ReservationDTO;
-import net.onlinereservation.dto.Response;
+import net.onlinereservation.response.Response;
 
 //@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

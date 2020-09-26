@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.onlinereservation.dto.HotelDTO;
-import net.onlinereservation.dto.Response;
 import net.onlinereservation.entity.Hotel;
+import net.onlinereservation.exception.HotelNotFoundException;
+import net.onlinereservation.response.Response;
 import net.onlinereservation.service.HotelService;
 
 @RestController
@@ -68,6 +70,16 @@ public class HotelController {
 				.map(hotel -> modelMapper.map(hotel, HotelDTO.class)).collect(Collectors.toList());
 		response.setData(hotelsDto);
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}")
+	@ApiOperation("Return the hotel by id")
+	public ResponseEntity<Response<HotelDTO>> findById(@PathVariable(name = "id") Long id)
+			throws HotelNotFoundException {
+		Response<HotelDTO> response = new Response<HotelDTO>();
+		Hotel hotel = hotelService.findById(id);
+		response.setData(modelMapper.map(hotel, HotelDTO.class));
+		return ResponseEntity.ok(response);
 	}
 
 }

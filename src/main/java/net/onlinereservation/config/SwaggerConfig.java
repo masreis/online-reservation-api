@@ -1,4 +1,4 @@
-package net.onlinereservation;
+package net.onlinereservation.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

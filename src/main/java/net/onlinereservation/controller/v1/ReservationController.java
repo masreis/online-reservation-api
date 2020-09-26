@@ -3,6 +3,7 @@ package net.onlinereservation.controller.v1;
 import java.util.Date;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.onlinereservation.dto.ReservationDTO;
-import net.onlinereservation.dto.Response;
 import net.onlinereservation.entity.Hotel;
 import net.onlinereservation.entity.Reservation;
 import net.onlinereservation.exception.HotelNotFoundException;
 import net.onlinereservation.exception.PeriodNotAvailableException;
 import net.onlinereservation.exception.ReservationNotFoundException;
+import net.onlinereservation.response.Response;
 import net.onlinereservation.service.HotelService;
 import net.onlinereservation.service.ReservationService;
 
@@ -89,6 +90,18 @@ public class ReservationController {
 		reservations = reservationService.findAll(pg)
 				.map(reservation -> modelMapper.map(reservation, ReservationDTO.class));
 		response.setData(reservations);
+		return ResponseEntity.ok(response);
+
+	}
+
+	@ApiOperation("Retrieve the reservation by id")
+	@GetMapping("/{id}")
+	public ResponseEntity<Response<ReservationDTO>> findById(@PathParam("id") Long id)
+			throws ReservationNotFoundException {
+
+		Response<ReservationDTO> response = new Response<ReservationDTO>();
+		Reservation reservation = reservationService.findById(id);
+		response.setData(modelMapper.map(reservation, ReservationDTO.class));
 		return ResponseEntity.ok(response);
 
 	}

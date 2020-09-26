@@ -1,4 +1,4 @@
-package net.onlinereservation.dto;
+package net.onlinereservation.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
