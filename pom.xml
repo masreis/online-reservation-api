@@ -27,6 +27,7 @@
 		<modelmapper.version>2.3.8</modelmapper.version>
 		<java.version>11</java.version>
 		<version.war.plugin>2.1.1</version.war.plugin>
+		<version.springbootadmin>2.2.4</version.springbootadmin>
 	</properties>
 
 	<dependencies>
@@ -66,6 +67,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>de.codecentric</groupId> -->
+<!-- 			<artifactId>spring-boot-admin-starter-server</artifactId> -->
+<!-- 			<version>${version.springbootadmin}</version> -->
+<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>io.springfox</groupId>

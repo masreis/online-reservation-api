@@ -40,14 +40,6 @@ public class HotelController {
 		this.modelMapper = modelMapper;
 	}
 
-	/**
-	 * 
-	 * @param dto
-	 * @param result
-	 * @return
-	 * 
-	 */
-
 	@PostMapping
 	@ApiOperation("Creates a hotel in the database")
 	public ResponseEntity<Response<HotelDTO>> create(@Valid @RequestBody HotelDTO dto, BindingResult result) {
