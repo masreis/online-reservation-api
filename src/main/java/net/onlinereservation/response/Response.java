@@ -12,12 +12,12 @@ import lombok.Setter;
 @Getter
 public class Response<T> {
 
-	private T data;
+    private T data;
 
-	private List<ResponseError> errors = new ArrayList<>();
+    private List<ResponseError> errors = new ArrayList<>();
 
-	public void addError(String message) {
-		errors.add(new ResponseError(message));
-	}
+    public void addError(String message) {
+        errors.add(new ResponseError(message));
+    }
 
 }

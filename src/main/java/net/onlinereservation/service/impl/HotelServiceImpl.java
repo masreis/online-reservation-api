@@ -18,30 +18,30 @@ import net.onlinereservation.service.HotelService;
 @Service
 public class HotelServiceImpl implements HotelService {
 
-	private HotelRepository hotelRepository;
+    private HotelRepository hotelRepository;
 
-	@Autowired
-	public HotelServiceImpl(HotelRepository hotelRepository) {
-		this.hotelRepository = hotelRepository;
-	}
+    @Autowired
+    public HotelServiceImpl(HotelRepository hotelRepository) {
+        this.hotelRepository = hotelRepository;
+    }
 
-	@PostConstruct
-	public void init() {
-		log.info("init: " + this.getClass());
-	}
+    @PostConstruct
+    public void init() {
+        log.info("init: " + this.getClass());
+    }
 
-	public Hotel save(Hotel hotel) {
-		return hotelRepository.save(hotel);
-	}
+    public Hotel save(Hotel hotel) {
+        return hotelRepository.save(hotel);
+    }
 
-	@Override
-	public List<Hotel> findAll() {
-		return hotelRepository.findAll();
-	}
+    @Override
+    public List<Hotel> findAll() {
+        return hotelRepository.findAll();
+    }
 
-	@Cacheable(value = "hotelByIdCache", key = "#id")
-	public Hotel findById(Long id) throws HotelNotFoundException {
-		return hotelRepository.findById(id).orElseThrow(() -> new HotelNotFoundException("Hotel not found."));
-	}
+    @Cacheable(value = "hotelByIdCache", key = "#id")
+    public Hotel findById(Long id) throws HotelNotFoundException {
+        return hotelRepository.findById(id).orElseThrow(() -> new HotelNotFoundException("Hotel not found."));
+    }
 
 }

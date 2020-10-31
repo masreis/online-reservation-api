@@ -21,27 +21,27 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class ReservationDTO extends RepresentationModel<ReservationDTO> {
 
-	@NotNull
-	private Long id;
+    @NotNull
+    private Long id;
 
-	@Email
-	private String email;
+    @Email
+    private String email;
 
-	@NotBlank
-	private String fullName;
+    @NotBlank
+    private String fullName;
 
-	@NotNull
-	@FutureOrPresent
-	private Date startDate;
+    @NotNull
+    @FutureOrPresent
+    private Date startDate;
 
-	@NotNull
-	@FutureOrPresent
-	private Date endDate;
+    @NotNull
+    @FutureOrPresent
+    private Date endDate;
 
-	@NotNull
-	private HotelDTO hotel;
+    @NotNull
+    private HotelDTO hotel;
 
-	@NotNull
-	private BigDecimal pricePerDay;
+    @NotNull
+    private BigDecimal pricePerDay;
 
 }

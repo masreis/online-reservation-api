@@ -12,18 +12,18 @@ import net.onlinereservation.exception.ReservationNotFoundException;
 
 public interface ReservationService {
 
-	Reservation save(Reservation reservation) throws PeriodNotAvailableException;
+    Reservation save(Reservation reservation) throws PeriodNotAvailableException;
 
-	boolean isAvailable(Date startDate, Date endDate, Hotel hotel);
+    boolean isAvailable(Date startDate, Date endDate, Hotel hotel);
 
-	Reservation findById(Long id) throws ReservationNotFoundException;
+    Reservation findById(Long id) throws ReservationNotFoundException;
 
-	boolean existsById(Long id);
+    boolean existsById(Long id);
 
-	Page<Reservation> findAllByDate(Date startDate, Date endDate, Pageable page);
+    Page<Reservation> findAllByDate(Date startDate, Date endDate, Pageable page);
 
-	void deleteById(Long id);
+    void deleteById(Long id);
 
-	Page<Reservation> findAll(Pageable pg);
+    Page<Reservation> findAll(Pageable pg);
 
 }

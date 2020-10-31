@@ -27,34 +27,34 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Reservation implements Serializable {
 
-	private static final long serialVersionUID = 5366913593224700256L;
+    private static final long serialVersionUID = 5366913593224700256L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Email
-	private String email;
+    @Email
+    private String email;
 
-	@NotBlank
-	private String fullName;
+    @NotBlank
+    private String fullName;
 
-	@Temporal(TemporalType.DATE)
-	@NotNull
-	@FutureOrPresent
-	private Date startDate;
+    @Temporal(TemporalType.DATE)
+    @NotNull
+    @FutureOrPresent
+    private Date startDate;
 
-	@Temporal(TemporalType.DATE)
-	@NotNull
-	@FutureOrPresent
-	private Date endDate;
+    @Temporal(TemporalType.DATE)
+    @NotNull
+    @FutureOrPresent
+    private Date endDate;
 
-	@NotNull
-	@ManyToOne
-	private Hotel hotel;
+    @NotNull
+    @ManyToOne
+    private Hotel hotel;
 
-	@NotNull
-	@Column(precision = 19, scale = 2)
-	private BigDecimal pricePerDay;
+    @NotNull
+    @Column(precision = 19, scale = 2)
+    private BigDecimal pricePerDay;
 
 }

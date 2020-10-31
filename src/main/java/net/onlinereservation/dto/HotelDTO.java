@@ -16,20 +16,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HotelDTO extends RepresentationModel<HotelDTO> {
 
-	private Long id;
+    private Long id;
 
-	@NotBlank(message = "Email must not be blank")
-	private String email;
+    @NotBlank(message = "Email must not be blank")
+    private String email;
 
-	@NotBlank
-	private String name;
+    @NotBlank
+    private String name;
 
-	@NotBlank
-	private String address;
+    @NotBlank
+    private String address;
 
-	@NotBlank
-	private String phoneNumber;
+    @NotBlank
+    private String phoneNumber;
 
-	@NotNull
-	private Integer numberOfRooms;
+    @NotNull
+    private Integer numberOfRooms;
 }

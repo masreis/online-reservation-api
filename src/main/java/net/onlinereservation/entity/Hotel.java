@@ -19,25 +19,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Hotel implements Serializable {
 
-	private static final long serialVersionUID = -3687243412118443969L;
+    private static final long serialVersionUID = -3687243412118443969L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@NotBlank
-	private String email;
+    @NotBlank
+    private String email;
 
-	@NotBlank
-	private String name;
+    @NotBlank
+    private String name;
 
-	@NotBlank
-	private String address;
+    @NotBlank
+    private String address;
 
-	@NotBlank
-	private String phoneNumber;
+    @NotBlank
+    private String phoneNumber;
 
-	@NotNull
-	private Integer numberOfRooms;
+    @NotNull
+    private Integer numberOfRooms;
 
 }

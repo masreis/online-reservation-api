@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResponseError {
 
-	private String error;
+    private String error;
 
 }

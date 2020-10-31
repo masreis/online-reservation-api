@@ -6,24 +6,26 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableCaching
+@EnableTransactionManagement
 public class OnlineReservationConfig {
 
-	@Bean
-	public ModelMapper modelMapper1() {
-		ModelMapper modelMapper = new ModelMapper();
-		return modelMapper;
-	}
+    @Bean
+    public ModelMapper modelMapper1() {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper;
+    }
 
-	@Bean
-	public CacheManagerCustomizer<ConcurrentMapCacheManager> cacheManagerCustomizer() {
-		return new CacheManagerCustomizer<ConcurrentMapCacheManager>() {
+    @Bean
+    public CacheManagerCustomizer<ConcurrentMapCacheManager> cacheManagerCustomizer() {
+        return new CacheManagerCustomizer<ConcurrentMapCacheManager>() {
 
-			@Override
-			public void customize(ConcurrentMapCacheManager cacheManager) {
-			}
-		};
-	}
+            @Override
+            public void customize(ConcurrentMapCacheManager cacheManager) {
+            }
+        };
+    }
 }

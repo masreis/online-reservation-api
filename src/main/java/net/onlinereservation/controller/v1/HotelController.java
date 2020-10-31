@@ -30,48 +30,48 @@ import net.onlinereservation.service.HotelService;
 @Api("This is the Hotel Controller")
 public class HotelController {
 
-	private HotelService hotelService;
+    private HotelService hotelService;
 
-	private ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
-	@Autowired
-	public HotelController(HotelService hotelService, ModelMapper modelMapper) {
-		this.hotelService = hotelService;
-		this.modelMapper = modelMapper;
-	}
+    @Autowired
+    public HotelController(HotelService hotelService, ModelMapper modelMapper) {
+        this.hotelService = hotelService;
+        this.modelMapper = modelMapper;
+    }
 
-	@PostMapping
-	@ApiOperation("Creates a hotel in the database")
-	public ResponseEntity<Response<HotelDTO>> create(@Valid @RequestBody HotelDTO dto, BindingResult result) {
-		Response<HotelDTO> response = new Response<>();
-		if (result.hasErrors()) {
-			result.getAllErrors().forEach(error -> response.addError(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(response);
-		}
-		Hotel hotel = hotelService.save(modelMapper.map(dto, Hotel.class));
-		HotelDTO hotelDto = modelMapper.map(hotel, HotelDTO.class);
-		response.setData(hotelDto);
-		return new ResponseEntity<>(response, HttpStatus.CREATED);
-	}
+    @PostMapping
+    @ApiOperation("Creates a hotel in the database")
+    public ResponseEntity<Response<HotelDTO>> create(@Valid @RequestBody HotelDTO dto, BindingResult result) {
+        Response<HotelDTO> response = new Response<>();
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(error -> response.addError(error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(response);
+        }
+        Hotel hotel = hotelService.save(modelMapper.map(dto, Hotel.class));
+        HotelDTO hotelDto = modelMapper.map(hotel, HotelDTO.class);
+        response.setData(hotelDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 
-	@GetMapping
-	@ApiOperation("Returns the list of hotels")
-	public ResponseEntity<Response<List<HotelDTO>>> findAll() {
-		Response<List<HotelDTO>> response = new Response<List<HotelDTO>>();
-		List<HotelDTO> hotelsDto = this.hotelService.findAll().stream()
-				.map(hotel -> modelMapper.map(hotel, HotelDTO.class)).collect(Collectors.toList());
-		response.setData(hotelsDto);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
+    @GetMapping
+    @ApiOperation("Returns the list of hotels")
+    public ResponseEntity<Response<List<HotelDTO>>> findAll() {
+        Response<List<HotelDTO>> response = new Response<List<HotelDTO>>();
+        List<HotelDTO> hotelsDto = this.hotelService.findAll().stream()
+                .map(hotel -> modelMapper.map(hotel, HotelDTO.class)).collect(Collectors.toList());
+        response.setData(hotelsDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}")
-	@ApiOperation("Return the hotel by id")
-	public ResponseEntity<Response<HotelDTO>> findById(@PathVariable(name = "id") Long id)
-			throws HotelNotFoundException {
-		Response<HotelDTO> response = new Response<HotelDTO>();
-		Hotel hotel = hotelService.findById(id);
-		response.setData(modelMapper.map(hotel, HotelDTO.class));
-		return ResponseEntity.ok(response);
-	}
+    @GetMapping("/{id}")
+    @ApiOperation("Return the hotel by id")
+    public ResponseEntity<Response<HotelDTO>> findById(@PathVariable(name = "id") Long id)
+            throws HotelNotFoundException {
+        Response<HotelDTO> response = new Response<HotelDTO>();
+        Hotel hotel = hotelService.findById(id);
+        response.setData(modelMapper.map(hotel, HotelDTO.class));
+        return ResponseEntity.ok(response);
+    }
 
 }

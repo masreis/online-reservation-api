@@ -18,47 +18,47 @@ import net.onlinereservation.service.ReservationService;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-	private ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
 
-	@Autowired
-	public ReservationServiceImpl(ReservationRepository reservationRepository) {
-		this.reservationRepository = reservationRepository;
-	}
+    @Autowired
+    public ReservationServiceImpl(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
-	public Reservation save(Reservation reservation) throws PeriodNotAvailableException {
-		return reservationRepository.save(reservation);
-	}
+    public Reservation save(Reservation reservation) throws PeriodNotAvailableException {
+        return reservationRepository.save(reservation);
+    }
 
-	public boolean isAvailable(Date startDate, Date endDate, Hotel hotel) {
-		int roomsOccupied = reservationRepository.roomsOccupied(startDate, endDate, hotel.getId());
-		return roomsOccupied < hotel.getNumberOfRooms();
-	}
+    public boolean isAvailable(Date startDate, Date endDate, Hotel hotel) {
+        int roomsOccupied = reservationRepository.roomsOccupied(startDate, endDate, hotel.getId());
+        return roomsOccupied < hotel.getNumberOfRooms();
+    }
 
-	@Cacheable(value = "reservationByIdCache", key = "#id", unless = "#result==null")
-	public Reservation findById(Long id) throws ReservationNotFoundException {
-		return reservationRepository.findById(id)
-				.orElseThrow(() -> new ReservationNotFoundException("The reservation does not exist."));
-	}
+    @Cacheable(value = "reservationByIdCache", key = "#id", unless = "#result==null")
+    public Reservation findById(Long id) throws ReservationNotFoundException {
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException("The reservation does not exist."));
+    }
 
-	public Page<Reservation> findAllByDate(Date startDate, Date endDate, Pageable pg) {
+    public Page<Reservation> findAllByDate(Date startDate, Date endDate, Pageable pg) {
 
-		return reservationRepository.findAllByStartDateBetween(startDate, endDate, pg);
+        return reservationRepository.findAllByStartDateBetween(startDate, endDate, pg);
 
-	}
+    }
 
-	@Override
-	public boolean existsById(Long id) {
-		return reservationRepository.existsById(id);
-	}
+    @Override
+    public boolean existsById(Long id) {
+        return reservationRepository.existsById(id);
+    }
 
-	@Override
-	public void deleteById(Long id) {
-		reservationRepository.deleteById(id);
-	}
+    @Override
+    public void deleteById(Long id) {
+        reservationRepository.deleteById(id);
+    }
 
-	@Override
-	public Page<Reservation> findAll(Pageable pg) {
-		return reservationRepository.findAll(pg);
-	}
+    @Override
+    public Page<Reservation> findAll(Pageable pg) {
+        return reservationRepository.findAll(pg);
+    }
 
 }
